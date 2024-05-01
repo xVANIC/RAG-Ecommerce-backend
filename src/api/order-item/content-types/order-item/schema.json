@@ -29,6 +29,9 @@
     },
     "model": {
       "type": "string"
+    },
+    "priceUnit": {
+      "type": "decimal"
     }
   }
 }

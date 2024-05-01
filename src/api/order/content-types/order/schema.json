@@ -24,7 +24,8 @@
         "pending",
         "paid",
         "shipped",
-        "delivered"
+        "delivered",
+        "canceled"
       ]
     },
     "order_items": {
@@ -33,8 +34,11 @@
       "target": "api::order-item.order-item",
       "mappedBy": "order"
     },
-    "mercadoPagoId": {
-      "type": "string"
+    "order_transaction": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order-transaction.order-transaction",
+      "mappedBy": "order"
     }
   }
 }

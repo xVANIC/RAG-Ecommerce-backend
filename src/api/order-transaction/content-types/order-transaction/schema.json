@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_transactions",
+  "info": {
+    "singularName": "order-transaction",
+    "pluralName": "order-transactions",
+    "displayName": "OrderTransaction",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "collectionId": {
+      "type": "string"
+    },
+    "collectionStatus": {
+      "type": "string"
+    },
+    "paymentId": {
+      "type": "string"
+    },
+    "paymentType": {
+      "type": "string"
+    },
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "inversedBy": "order_transaction"
+    },
+    "merchantOrderId": {
+      "type": "string"
+    },
+    "merchantAccountId": {
+      "type": "string"
+    },
+    "preferenceId": {
+      "type": "string"
+    }
+  }
+}

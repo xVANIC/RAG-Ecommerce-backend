@@ -876,13 +876,19 @@ export interface ApiOrderOrder extends Schema.CollectionType {
   attributes: {
     userDetails: Attribute.JSON;
     totalPrice: Attribute.Decimal;
-    status: Attribute.Enumeration<['pending', 'paid', 'shipped', 'delivered']>;
+    status: Attribute.Enumeration<
+      ['pending', 'paid', 'shipped', 'delivered', 'canceled']
+    >;
     order_items: Attribute.Relation<
       'api::order.order',
       'oneToMany',
       'api::order-item.order-item'
     >;
-    mercadoPagoId: Attribute.String;
+    order_transaction: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'api::order-transaction.order-transaction'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -922,6 +928,7 @@ export interface ApiOrderItemOrderItem extends Schema.CollectionType {
       'api::order.order'
     >;
     model: Attribute.String;
+    priceUnit: Attribute.Decimal;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -933,6 +940,49 @@ export interface ApiOrderItemOrderItem extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::order-item.order-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderTransactionOrderTransaction
+  extends Schema.CollectionType {
+  collectionName: 'order_transactions';
+  info: {
+    singularName: 'order-transaction';
+    pluralName: 'order-transactions';
+    displayName: 'OrderTransaction';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    collectionId: Attribute.String;
+    collectionStatus: Attribute.String;
+    paymentId: Attribute.String;
+    paymentType: Attribute.String;
+    order: Attribute.Relation<
+      'api::order-transaction.order-transaction',
+      'oneToOne',
+      'api::order.order'
+    >;
+    merchantOrderId: Attribute.String;
+    merchantAccountId: Attribute.String;
+    preferenceId: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-transaction.order-transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-transaction.order-transaction',
       'oneToOne',
       'admin::user'
     > &
@@ -1011,6 +1061,7 @@ declare module '@strapi/types' {
       'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
       'api::order-item.order-item': ApiOrderItemOrderItem;
+      'api::order-transaction.order-transaction': ApiOrderTransactionOrderTransaction;
       'api::product.product': ApiProductProduct;
     }
   }
