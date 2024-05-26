@@ -362,6 +362,262 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiBranchBranch extends Schema.CollectionType {
+  collectionName: 'branches';
+  info: {
+    singularName: 'branch';
+    pluralName: 'branches';
+    displayName: 'branch';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::branch.branch', 'name'>;
+    products: Attribute.Relation<
+      'api::branch.branch',
+      'manyToMany',
+      'api::product.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::branch.branch',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::branch.branch',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'category';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::category.category', 'name'>;
+    products: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::product.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    userDetails: Attribute.JSON;
+    totalPrice: Attribute.Decimal;
+    status: Attribute.Enumeration<
+      ['pending', 'paid', 'shipped', 'delivered', 'canceled']
+    >;
+    order_items: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::order-item.order-item'
+    >;
+    order_transaction: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'api::order-transaction.order-transaction'
+    >;
+    user: Attribute.Relation<
+      'api::order.order',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderItemOrderItem extends Schema.CollectionType {
+  collectionName: 'order_items';
+  info: {
+    singularName: 'order-item';
+    pluralName: 'order-items';
+    displayName: 'OrderItem';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    product: Attribute.String;
+    quantity: Attribute.Integer;
+    price: Attribute.Decimal;
+    order: Attribute.Relation<
+      'api::order-item.order-item',
+      'manyToOne',
+      'api::order.order'
+    >;
+    model: Attribute.String;
+    priceUnit: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-item.order-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-item.order-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderTransactionOrderTransaction
+  extends Schema.CollectionType {
+  collectionName: 'order_transactions';
+  info: {
+    singularName: 'order-transaction';
+    pluralName: 'order-transactions';
+    displayName: 'OrderTransaction';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    collectionId: Attribute.String;
+    collectionStatus: Attribute.String;
+    paymentId: Attribute.String;
+    paymentType: Attribute.String;
+    order: Attribute.Relation<
+      'api::order-transaction.order-transaction',
+      'oneToOne',
+      'api::order.order'
+    >;
+    merchantOrderId: Attribute.String;
+    merchantAccountId: Attribute.String;
+    preferenceId: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-transaction.order-transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-transaction.order-transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'product';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    subtitle: Attribute.String;
+    price: Attribute.Decimal & Attribute.Required;
+    model: Attribute.JSON;
+    image: Attribute.Media;
+    thumbnail: Attribute.Media & Attribute.Required;
+    original_price: Attribute.Decimal;
+    slug: Attribute.UID<'api::product.product', 'name'>;
+    categories: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::category.category'
+    >;
+    description: Attribute.RichText;
+    branches: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::branch.branch'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -798,262 +1054,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiBranchBranch extends Schema.CollectionType {
-  collectionName: 'branches';
-  info: {
-    singularName: 'branch';
-    pluralName: 'branches';
-    displayName: 'branch';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    slug: Attribute.UID<'api::branch.branch', 'name'>;
-    products: Attribute.Relation<
-      'api::branch.branch',
-      'manyToMany',
-      'api::product.product'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::branch.branch',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::branch.branch',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
-  info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'category';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    slug: Attribute.UID<'api::category.category', 'name'>;
-    products: Attribute.Relation<
-      'api::category.category',
-      'manyToMany',
-      'api::product.product'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiOrderOrder extends Schema.CollectionType {
-  collectionName: 'orders';
-  info: {
-    singularName: 'order';
-    pluralName: 'orders';
-    displayName: 'order';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    userDetails: Attribute.JSON;
-    totalPrice: Attribute.Decimal;
-    status: Attribute.Enumeration<
-      ['pending', 'paid', 'shipped', 'delivered', 'canceled']
-    >;
-    order_items: Attribute.Relation<
-      'api::order.order',
-      'oneToMany',
-      'api::order-item.order-item'
-    >;
-    order_transaction: Attribute.Relation<
-      'api::order.order',
-      'oneToOne',
-      'api::order-transaction.order-transaction'
-    >;
-    user: Attribute.Relation<
-      'api::order.order',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::order.order',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::order.order',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiOrderItemOrderItem extends Schema.CollectionType {
-  collectionName: 'order_items';
-  info: {
-    singularName: 'order-item';
-    pluralName: 'order-items';
-    displayName: 'OrderItem';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    product: Attribute.String;
-    quantity: Attribute.Integer;
-    price: Attribute.Decimal;
-    order: Attribute.Relation<
-      'api::order-item.order-item',
-      'manyToOne',
-      'api::order.order'
-    >;
-    model: Attribute.String;
-    priceUnit: Attribute.Decimal;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::order-item.order-item',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::order-item.order-item',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiOrderTransactionOrderTransaction
-  extends Schema.CollectionType {
-  collectionName: 'order_transactions';
-  info: {
-    singularName: 'order-transaction';
-    pluralName: 'order-transactions';
-    displayName: 'OrderTransaction';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    collectionId: Attribute.String;
-    collectionStatus: Attribute.String;
-    paymentId: Attribute.String;
-    paymentType: Attribute.String;
-    order: Attribute.Relation<
-      'api::order-transaction.order-transaction',
-      'oneToOne',
-      'api::order.order'
-    >;
-    merchantOrderId: Attribute.String;
-    merchantAccountId: Attribute.String;
-    preferenceId: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::order-transaction.order-transaction',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::order-transaction.order-transaction',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiProductProduct extends Schema.CollectionType {
-  collectionName: 'products';
-  info: {
-    singularName: 'product';
-    pluralName: 'products';
-    displayName: 'product';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    subtitle: Attribute.String;
-    price: Attribute.Decimal & Attribute.Required;
-    model: Attribute.JSON;
-    image: Attribute.Media;
-    thumbnail: Attribute.Media & Attribute.Required;
-    original_price: Attribute.Decimal;
-    slug: Attribute.UID<'api::product.product', 'name'>;
-    categories: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::category.category'
-    >;
-    description: Attribute.RichText;
-    branches: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::branch.branch'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1064,6 +1064,12 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::branch.branch': ApiBranchBranch;
+      'api::category.category': ApiCategoryCategory;
+      'api::order.order': ApiOrderOrder;
+      'api::order-item.order-item': ApiOrderItemOrderItem;
+      'api::order-transaction.order-transaction': ApiOrderTransactionOrderTransaction;
+      'api::product.product': ApiProductProduct;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -1072,12 +1078,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::branch.branch': ApiBranchBranch;
-      'api::category.category': ApiCategoryCategory;
-      'api::order.order': ApiOrderOrder;
-      'api::order-item.order-item': ApiOrderItemOrderItem;
-      'api::order-transaction.order-transaction': ApiOrderTransactionOrderTransaction;
-      'api::product.product': ApiProductProduct;
     }
   }
 }

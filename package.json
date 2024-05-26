@@ -14,13 +14,14 @@
     "@strapi/plugin-i18n": "4.23.1",
     "@strapi/plugin-users-permissions": "4.23.1",
     "@strapi/provider-upload-cloudinary": "^4.23.1",
-    "@strapi/strapi": "^4.22.0",
+    "@strapi/strapi": "^4.5.6",
     "cors": "^2.8.5",
     "pg": "8.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
-    "styled-components": "^5.3.11"
+    "strapi-plugin-entity-relationship-chart": "^4.14.6",
+    "styled-components": "^5.3.3"
   },
   "author": {
     "name": "A Strapi developer"
